@@ -38,14 +38,7 @@ class PostgreeDB():
         if hasattr(self, "pool"):
             return 
             
-        env = config('env')
-        if env == "dev":
-            self.dsn = config('pg-dsn', cast=str) 
-        elif env == "prd": 
-            self.dsn = config("pg-dsn-prd", cast=str)
-        else:
-            raise CustomException(message="Error in __init__ function")
-        
+        self.dsn = config('DATABASE_URL', cast=str)
         self.pool = self.init_pool()
 
     def close(self) -> None:

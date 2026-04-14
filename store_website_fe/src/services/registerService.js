@@ -1,5 +1,5 @@
 // --- Base URL for your User API ---
-const API_URL = 'http://127.0.0.1:8000/stores';
+import { API_ENDPOINTS } from '../config/api.js';
 
 /**
  * Registers a new user.
@@ -7,7 +7,7 @@ const API_URL = 'http://127.0.0.1:8000/stores';
  * @returns {Promise<Object>} The API response (e.g., { message, id }).
  */
 export const register = async (userData) => {
-  const response = await fetch(`${API_URL}/users`, {
+  const response = await fetch(API_ENDPOINTS.REGISTER, {
     method: 'POST',
     headers: {
       'accept': 'application/json',

@@ -1,4 +1,4 @@
-const API_URL = 'http://127.0.0.1:8000/stores/users/login';
+import { API_ENDPOINTS } from '../config/api.js';
 
 /**
  * Logs in a user.
@@ -9,7 +9,7 @@ const API_URL = 'http://127.0.0.1:8000/stores/users/login';
  */
 export const login = async (email, password) => {
   const params = new URLSearchParams({ email, password });
-  const url = `${API_URL}?${params.toString()}`;
+  const url = `${API_ENDPOINTS.LOGIN}?${params.toString()}`;
 
   let response;
   try {

@@ -1,5 +1,5 @@
 // --- Base URL for your User API ---
-const API_URL = 'http://127.0.0.1:8000/stores/users';
+import { API_ENDPOINTS } from '../config/api.js';
 
 /**
  * Updates an existing user (sends only changed fields).
@@ -9,7 +9,7 @@ const API_URL = 'http://127.0.0.1:8000/stores/users';
  * @returns {Promise<Object>} A promise that resolves to the API response (e.g., { message, id }).
  */
 export const updateUser = async (userId, patchData) => {
-  const response = await fetch(`${API_URL}/${userId}`, {
+  const response = await fetch(`${API_ENDPOINTS.PROFILE}/${userId}`, {
     method: 'PUT', // Using PUT as specified
     headers: {
       'accept': 'application/json',

@@ -7,7 +7,7 @@ const getStoreId = () => {
   return userData.id;
 };
 
-const API_URL = 'http://127.0.0.1:8000/stores/products';
+import { API_ENDPOINTS } from '../config/api.js';
 
 /**
  * Fetches all products for the current store.
@@ -15,7 +15,7 @@ const API_URL = 'http://127.0.0.1:8000/stores/products';
  */
 export const fetchProducts = async () => {
   const storeId = getStoreId();
-  const url = `${API_URL}?store_id=${storeId}`;
+  const url = `${API_ENDPOINTS.PRODUCTS}?store_id=${storeId}`;
   
   const response = await fetch(url, {
     headers: { 'accept': 'application/json' }
@@ -45,7 +45,7 @@ export const createProduct = async (productData) => {
     storeUserId: storeId,
   };
 
-  const response = await fetch(API_URL, {
+  const response = await fetch(API_ENDPOINTS.PRODUCTS, {
     method: 'POST',
     headers: {
       'accept': 'application/json',
@@ -70,7 +70,7 @@ export const createProduct = async (productData) => {
  * @returns {Promise<void>} A promise that resolves on success.
  */
 export const updateProduct = async (productId, patchData) => {
-  const response = await fetch(`${API_URL}/${productId}`, {
+  const response = await fetch(`${API_ENDPOINTS.PRODUCTS}/${productId}`, {
     method: 'PUT',
     headers: {
       'accept': 'application/json',
@@ -91,7 +91,7 @@ export const updateProduct = async (productId, patchData) => {
  * @returns {Promise<void>} A promise that resolves on success.
  */
 export const deleteProduct = async (productId) => {
-  const response = await fetch(`${API_URL}/${productId}`, {
+  const response = await fetch(`${API_ENDPOINTS.PRODUCTS}/${productId}`, {
     method: 'DELETE',
     headers: {
       'accept': 'application/json',

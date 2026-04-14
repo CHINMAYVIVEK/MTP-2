@@ -1,33 +1,28 @@
 // API Configuration
 // Replace these URLs with your actual backend endpoints
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8002/api';
 
 export const API_ENDPOINTS = {
   // Products
   PRODUCTS: `${API_BASE_URL}/products`,
   PRODUCT_DETAIL: (id) => `${API_BASE_URL}/products/${id}`,
-  
-  // Cart
-  CART: `${API_BASE_URL}/cart`,
-  ADD_TO_CART: `${API_BASE_URL}/cart/add`,
-  REMOVE_FROM_CART: (itemId) => `${API_BASE_URL}/cart/remove/${itemId}`,
-  UPDATE_CART: (itemId) => `${API_BASE_URL}/cart/update/${itemId}`,
-  
+
   // Orders
   ORDERS: `${API_BASE_URL}/orders`,
   ORDER_DETAIL: (id) => `${API_BASE_URL}/orders/${id}`,
-  CREATE_ORDER: `${API_BASE_URL}/orders/create`,
-  
-  // User
-  LOGIN: `${API_BASE_URL}/auth/login`,
-  REGISTER: `${API_BASE_URL}/auth/register`,
-  PROFILE: `${API_BASE_URL}/user/profile`,
-  UPDATE_PROFILE: `${API_BASE_URL}/user/profile/update`,
-  
-  // Notifications
-  NOTIFICATIONS: `${API_BASE_URL}/notifications`,
-  MARK_READ: (id) => `${API_BASE_URL}/notifications/${id}/read`,
+
+  // Customer/User
+  REGISTER: `${API_BASE_URL}/customers/register`,
+  LOGIN: `${API_BASE_URL}/customers/login`,
+  UPDATE_PROFILE: `${API_BASE_URL}/customers/update`,
+  PROFILE: (id) => `${API_BASE_URL}/customers/${id}`,
+
+  // Health check
+  HEALTH: `${API_BASE_URL}/health`,
+};
+
+export default API_BASE_URL;
 };
 
 // Helper function for API calls
