@@ -380,18 +380,6 @@ cd customer_website_be && go build -o bin/customer-be main.go
 cd store_website_be && gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
 ```
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
 ## 🙏 Acknowledgments
 
 - Built as part of IIT Jodhpur Major Technical Project (MTP-2)
