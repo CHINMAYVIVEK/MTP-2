@@ -11,4 +11,4 @@ WORKDIR /app
 RUN apk add --no-cache curl && npm install -g serve
 COPY --from=builder /app/dist ./dist
 EXPOSE 8504
-CMD ["serve", "-s", "dist", "-l", "8504"]
+CMD ["serve", "-s", "dist", "-l", "8504", "--cors"]
