@@ -1,4 +1,20 @@
 services:
+  store-backend:
+    build:
+      context: ./store_website_be
+      dockerfile: Dockerfile
+    container_name: store-backend
+    env_file:
+      - .env
+    ports:
+      - "8502:8502"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8502/ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   customer-backend:
     build:
       context: ./customer_website_be
@@ -9,25 +25,14 @@ services:
     ports:
       - "8501:8501"
     depends_on:
-      - store-backend
-
-  store-backend:
-    build:
-      context: ./store_website_be
-      dockerfile: Dockerfile
-    container_name: store-backend
-    env_file:
-      - .env
-    ports:
-      - "8502:8502"
-
-  customer-frontend:
-    build:
-      context: ./customer_website_fe
-      dockerfile: Dockerfile
-    container_name: customer-frontend
-    ports:
-      - "8503:8503"
+      store-backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8501/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   store-frontend:
     build:
@@ -36,6 +41,32 @@ services:
     container_name: store-frontend
     ports:
       - "8504:8504"
+    depends_on:
+      customer-backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8504/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  customer-frontend:
+    build:
+      context: ./customer_website_fe
+      dockerfile: Dockerfile
+    container_name: customer-frontend
+    ports:
+      - "8503:8503"
+    depends_on:
+      store-frontend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8503/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   qcommerce-website:
     build:
@@ -45,5 +76,7 @@ services:
     ports:
       - "8505:8505"
     depends_on:
-      - customer-frontend
-      - store-frontend
+      customer-frontend:
+        condition: service_healthy
+      store-frontend:
+        condition: service_healthy

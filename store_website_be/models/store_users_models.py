@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, field_validator
-from typing import Annotated, Optional, TypedDict
+from typing import Annotated, Optional
+from typing_extensions import TypedDict
 from fastapi import Path, Query
 
 class AddressModel(TypedDict):

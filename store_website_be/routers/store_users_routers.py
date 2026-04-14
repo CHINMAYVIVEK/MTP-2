@@ -60,7 +60,7 @@ async def delete_store_user(user_id: user_id_annotation):
              responses=responses,
              response_model_exclude_none=True,
              tags=tags)
-async def login_store_user(email, password):
+async def login_store_user(email: str, password: str):
     log.info("login_store_user started")
     db = PostgreeDB()
     data = db.get_user_by_email(email=email)

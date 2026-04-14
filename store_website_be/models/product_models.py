@@ -4,12 +4,12 @@ from fastapi import Path
 
 product_id_annotation = Annotated[str, Path(description="Store product id")]
 
-class BaseProductImageModel(TypedDict):
+class BaseProductImageModel(BaseModel):
     url: Annotated[str, Field(description="Product image url")]
     alt_text: Annotated[str, Field(description="Product alt text")]
     primary: Annotated[Optional[bool], Field(default=False, description="is product image primary")]
 
-class BaseProductAttributeModel(TypedDict):
+class BaseProductAttributeModel(BaseModel):
     attrName: Annotated[str, Field(description="Product attribute name")]
     attrValue: Annotated[str, Field(description="Product attribute value")]
 
