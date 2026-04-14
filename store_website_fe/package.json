@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Store management application",
   "scripts": {
-    "start": "webpack serve --port 8081",
+    "start": "webpack serve --port 8504",
     "build": "webpack --mode production"
   },
   "devDependencies": {

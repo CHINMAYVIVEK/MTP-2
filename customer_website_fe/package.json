@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Customer-facing application",
   "scripts": {
-    "start": "webpack serve --port 8080",
+    "start": "webpack serve --port 8503",
     "build": "webpack --mode production"
   },
   "devDependencies": {

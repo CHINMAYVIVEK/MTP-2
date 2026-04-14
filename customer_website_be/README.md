@@ -49,7 +49,7 @@ Create a `.env` file from `env.example`:
 ENV=development
 
 SERVER_HOST=localhost
-SERVER_PORT=8080
+SERVER_PORT=8501
 SERVER_READ_TIMEOUT=15s
 SERVER_WRITE_TIMEOUT=15s
 
@@ -78,7 +78,7 @@ go build -o customer_website_be main.go
 ./customer_website_be
 ```
 
-Server URL: `http://localhost:8080`
+Server URL: `http://localhost:8501`
 
 ---
 

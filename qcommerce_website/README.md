@@ -101,7 +101,7 @@ The QCommerce platform is built as a **micro-frontend ecosystem** with clearly s
    npm install && npm start
    ```
 
-* Access the portal at `http://localhost:3000`.
+* Access the portal at `http://localhost:8505`.
 * All micro-frontends should now load correctly within the main app.
 
 ---

@@ -9,7 +9,7 @@ module.exports = {
   },
   mode: 'development',
   devServer: {
-    port: 8080,
+    port: 8503,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Root config for ecommerce micro-frontend",
   "scripts": {
-    "start": "webpack serve --port 9000",
+    "start": "webpack serve --port 8505",
     "build": "webpack --mode production"
   },
   "devDependencies": {

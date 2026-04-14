@@ -98,94 +98,136 @@ MTP-2/
 
 ### Prerequisites
 
-- **Go 1.25.3+** for customer backend
-- **Python 3.8+** for store backend
-- **Node.js 16+** for all frontend applications
-- **PostgreSQL 12+** database
-- **npm** or **yarn** package manager
+- **Docker & Docker Compose** for containerized deployment
+- **Go 1.25.3+** for customer backend development
+- **Python 3.8+** for store backend development
+- **Node.js 16+** for frontend development
+- **PostgreSQL 12+** database (handled by Docker)
 
-### 1. Database Setup
+### Docker Deployment (Recommended)
 
 ```bash
-# Create PostgreSQL databases
-createdb qcommerce
-createdb store_db  # If using separate DB for store backend
+# Clone and navigate to project
+cd MTP-2
+
+# Start all services
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# Stop services
+docker compose down
 ```
 
-### 2. Backend Services
+**Access Points:**
+- **Main Portal**: http://localhost:8505
+- **Customer Frontend**: http://localhost:8503
+- **Store Frontend**: http://localhost:8504
+- **Customer Backend API**: http://localhost:8501
+- **Store Backend API**: http://localhost:8502
 
-#### Customer Backend (Go)
+### Manual Development Setup
+
+#### 1. Database Setup
+```bash
+# PostgreSQL connection (handled automatically in Docker)
+# DATABASE_URL=postgresql://neondb_owner:npg_xxx@ep-plain-hill-xxx.aws.neon.tech/neondb?sslmode=require
+```
+
+#### 2. Backend Services
+
+**Customer Backend (Go)**
 ```bash
 cd customer_website_be
 cp env.example .env
-# Edit .env with your database credentials
+# Configure .env with database URL and ports
 go mod tidy
 go run main.go
 ```
-**Server:** http://localhost:8002
+**API:** http://localhost:8501
 
-#### Store Backend (Python)
+**Store Backend (Python)**
 ```bash
 cd store_website_be
 pip install -r requirements.txt
-# Set environment variables or create .env
-uvicorn main:app --reload
+# Set DATABASE_URL environment variable
+uvicorn main:app --reload --port 8502
 ```
-**Server:** http://localhost:8000
+**API:** http://localhost:8502
 
-### 3. Frontend Applications
+#### 3. Frontend Applications
 
-#### Main Portal
+**Main Portal (Single-SPA Orchestrator)**
 ```bash
 cd qcommerce_website
 npm install
 npm start
 ```
-**Portal:** http://localhost:9000
+**Portal:** http://localhost:8505
 
-#### Customer Frontend
+**Customer Frontend**
 ```bash
 cd customer_website_fe
 npm install
 npm start
 ```
-**Customer App:** http://localhost:8080
+**App:** http://localhost:8503
 
-#### Store Frontend
+**Store Frontend**
 ```bash
 cd store_website_fe
 npm install
 npm start
 ```
-**Store App:** http://localhost:8081
+**App:** http://localhost:8504
 
 ## 🔧 Configuration
 
 ### Environment Variables
 
+#### Docker Environment (Recommended)
+All services are pre-configured in `docker-compose.yml` with:
+- **Database**: Neon PostgreSQL cloud instance
+- **Ports**: 8501-8505 for all services
+- **CORS**: Configured for cross-service communication
+- **Networking**: Container-to-container communication
+
 #### Customer Backend (.env)
 ```env
 ENV=development
-SERVER_HOST=localhost
-SERVER_PORT=8002
+SERVER_HOST=0.0.0.0
+SERVER_PORT=8501
 SERVER_READ_TIMEOUT=15s
 SERVER_WRITE_TIMEOUT=15s
-DATABASE_URL=postgres://user:pass@localhost:5432/qcommerce?sslmode=disable
+SERVER_IDLE_TIMEOUT=120s
+DATABASE_URL=postgresql://user:pass@host:5432/db_name?sslmode=require
 DB_MAX_OPEN_CONNS=25
 DB_MAX_IDLE_CONNS=5
 DB_CONN_MAX_LIFETIME=5m
 DB_CONN_MAX_IDLE_TIME=10m
+CORS_ORIGIN=http://customer-frontend:8503,http://store-frontend:8504,http://qcommerce-website:8505
+CUSTOMER_FE_PORT=8503
+STORE_FE_PORT=8504
+QCOMMERCE_PORT=8505
+REACT_APP_API_URL=http://customer-backend:8501/api
+REACT_APP_STORE_API_URL=http://store-backend:8502
 ```
 
 #### Store Backend (Environment Variables)
 ```bash
-export DATABASE_URL="postgresql://user:pass@localhost:5432/store_db"
-export CORS_ORIGIN="http://localhost:8081,http://localhost:9000"
+DATABASE_URL="postgresql://user:pass@host:5432/db_name?sslmode=require"
+CORS_ORIGIN="http://customer-frontend:8503,http://store-frontend:8504,http://qcommerce-website:8505"
+SERVER_HOST=0.0.0.0
+SERVER_PORT=8502
+CUSTOMER_FE_PORT=8503
+STORE_FE_PORT=8504
+QCOMMERCE_PORT=8505
 ```
 
 ## 📡 API Documentation
 
-### Customer Backend APIs
+### Customer Backend APIs (http://localhost:8501/api)
 
 #### Health Check
 ```http
@@ -219,7 +261,7 @@ PUT    /api/orders/{id}
 DELETE /api/orders/{id}
 ```
 
-### Store Backend APIs
+### Store Backend APIs (http://localhost:8502)
 
 #### Health Check
 ```http
@@ -233,6 +275,7 @@ POST   /stores/users
 GET    /stores/users/{id}
 PUT    /stores/users/{id}
 DELETE /stores/users/{id}
+GET    /stores/users/login
 ```
 
 #### Products
@@ -359,26 +402,80 @@ type Order struct {
 
 ## 🚀 Deployment
 
-### Development
+### Docker Compose (Recommended)
+
 ```bash
-# Start all services with hot reload
-# Backend services with respective run commands
-# Frontend applications with npm start
+# Development with hot reload
+docker compose up
+
+# Production deployment
+docker compose up -d
+
+# View service logs
+docker compose logs [service-name]
+
+# Stop all services
+docker compose down
+
+# Rebuild after code changes
+docker compose up --build
+
+# Scale specific services
+docker compose up -d --scale customer-backend=3
 ```
 
-### Production
+### Manual Development
+
+#### Backend Services
 ```bash
-# Build frontend applications
+# Customer Backend (Go)
+cd customer_website_be
+go build -o bin/customer-be main.go
+./bin/customer-be
+
+# Store Backend (Python)
+cd store_website_be
+gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8502
+```
+
+#### Frontend Applications
+```bash
+# Build all frontend applications
 cd customer_website_fe && npm run build
 cd store_website_fe && npm run build
 cd qcommerce_website && npm run build
 
-# Build Go binary
-cd customer_website_be && go build -o bin/customer-be main.go
-
-# Deploy Python with uvicorn/gunicorn
-cd store_website_be && gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
+# Serve built applications with nginx/apache
 ```
+
+### Production Considerations
+
+- **Database**: Uses Neon PostgreSQL for cloud-hosted database
+- **Load Balancing**: Implement reverse proxy (nginx) for production
+- **SSL/TLS**: Configure HTTPS certificates
+- **Monitoring**: Add logging and monitoring solutions
+- **Security**: Implement proper authentication and authorization
+- **Scaling**: Use Docker Swarm or Kubernetes for horizontal scaling
+
+## 🐳 Docker Services
+
+| Service | Port | Technology | Description |
+|---------|------|------------|-------------|
+| `customer-backend` | 8501 | Go + Gorilla Mux | Customer operations API |
+| `store-backend` | 8502 | Python + FastAPI | Store management API |
+| `customer-frontend` | 8503 | React + Single-SPA | Customer-facing interface |
+| `store-frontend` | 8504 | React + Single-SPA | Store management interface |
+| `qcommerce-website` | 8505 | Single-SPA | Main portal orchestrator |
+
+### Service Dependencies
+- `customer-backend` depends on `store-backend`
+- `qcommerce-website` depends on both frontends
+- All services share the same PostgreSQL database instance
+
+### Container Networking
+- Services communicate using container names (e.g., `http://customer-backend:8501`)
+- CORS configured for cross-service communication
+- External access through published ports (8501-8505)
 
 ## 🙏 Acknowledgments
 
