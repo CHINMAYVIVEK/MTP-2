@@ -62,6 +62,21 @@ async def delete_store_user(user_id: user_id_annotation):
              tags=tags)
 async def login_store_user(email: str, password: str):
     log.info("login_store_user started")
+    
+    # Hardcoded credentials check for testing
+    if email == "store@gmail.com" and password == "store123":
+        log.info("Hardcoded login successful for store@gmail.com")
+        return GETResponseModel(
+            id="hardcoded-store-id-123",
+            first_name="Store",
+            last_name="Owner",
+            store_name="My QCommerce Store",
+            email="store@gmail.com",
+            phone="1234567890",
+            img_url="https://via.placeholder.com/150",
+            addresses=[{"addressLine": "123 Main St", "city": "Tech City", "state": "CA", "postalCode": "94043"}]
+        )
+
     db = PostgreeDB()
     data = db.get_user_by_email(email=email)
     validate_password(hashed_pass=data[-1], password=password)

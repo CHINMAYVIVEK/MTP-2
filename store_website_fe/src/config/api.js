@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.REACT_APP_STORE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.REACT_APP_STORE_API_URL || 'http://localhost:8502';
 
 export const API_ENDPOINTS = {
   LOGIN: `${API_BASE_URL}/stores/users/login`,

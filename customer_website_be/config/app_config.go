@@ -32,7 +32,7 @@ type ServerConfig struct {
 
 // PSQLConfig holds PostgreSQL database configuration
 type PSQLConfig struct {
-	DatabaseURL     string        `env:"DATABASE_URL" envDefault:"postgresql://neondb_owner:npg_mHBij7S4VqNL@ep-orange-voice-adun8lcy-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"`
+	DatabaseURL     string        `env:"DATABASE_URL" envDefault:""`
 	MaxOpenConns    int           `env:"DB_MAX_OPEN_CONNS" envDefault:"25"`
 	MaxIdleConns    int           `env:"DB_MAX_IDLE_CONNS" envDefault:"5"`
 	ConnMaxLifetime time.Duration `env:"DB_CONN_MAX_LIFETIME" envDefault:"5m"`

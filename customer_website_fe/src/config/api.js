@@ -1,7 +1,7 @@
 // API Configuration
 // Replace these URLs with your actual backend endpoints
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8002/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8501/api';
 
 export const API_ENDPOINTS = {
   // Products
@@ -22,13 +22,10 @@ export const API_ENDPOINTS = {
   HEALTH: `${API_BASE_URL}/health`,
 };
 
-export default API_BASE_URL;
-};
-
 // Helper function for API calls
 export const apiCall = async (url, options = {}) => {
   const token = localStorage.getItem('authToken');
-  
+
   const defaultOptions = {
     headers: {
       'Content-Type': 'application/json',
@@ -37,11 +34,11 @@ export const apiCall = async (url, options = {}) => {
   };
 
   const response = await fetch(url, { ...defaultOptions, ...options });
-  
+
   if (!response.ok) {
     throw new Error(`API Error: ${response.statusText}`);
   }
-  
+
   return response.json();
 };
 
