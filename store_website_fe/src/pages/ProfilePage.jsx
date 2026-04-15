@@ -30,7 +30,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem('storeUser');
     if (!storedUser) {
-      navigate('/store/login'); 
+      navigate('/login'); 
       return;
     }
 

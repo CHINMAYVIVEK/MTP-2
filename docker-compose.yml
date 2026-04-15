@@ -4,10 +4,14 @@ services:
       context: ./store_website_be
       dockerfile: Dockerfile
     container_name: store-backend
-    env_file:
-      - .env
+    environment:
+      ENV: ${ENV?set ENV}
+      NODE_ENV: ${NODE_ENV?set NODE_ENV}
+      PORT: ${STORE_BE_PORT?set STORE_BE_PORT}
+      DATABASE_URL: ${DATABASE_URL?set DATABASE_URL}
+      CORS_ORIGIN: ${CORS_ORIGIN?set CORS_ORIGIN}
     ports:
-      - "8502:8502"
+      - "${STORE_BE_PORT?set STORE_BE_PORT}:8502"
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8502/ping || exit 1"]
       interval: 10s
@@ -20,10 +24,21 @@ services:
       context: ./customer_website_be
       dockerfile: Dockerfile
     container_name: customer-backend
-    env_file:
-      - .env
+    environment:
+      ENV: ${ENV?set ENV}
+      NODE_ENV: ${NODE_ENV?set NODE_ENV}
+      SERVER_HOST: ${SERVER_HOST?set SERVER_HOST}
+      SERVER_PORT: ${CUSTOMER_BE_PORT?set CUSTOMER_BE_PORT}
+      SERVER_READ_TIMEOUT: ${SERVER_READ_TIMEOUT?set SERVER_READ_TIMEOUT}
+      SERVER_WRITE_TIMEOUT: ${SERVER_WRITE_TIMEOUT?set SERVER_WRITE_TIMEOUT}
+      SERVER_IDLE_TIMEOUT: ${SERVER_IDLE_TIMEOUT?set SERVER_IDLE_TIMEOUT}
+      DATABASE_URL: ${DATABASE_URL?set DATABASE_URL}
+      DB_MAX_OPEN_CONNS: ${DB_MAX_OPEN_CONNS?set DB_MAX_OPEN_CONNS}
+      DB_MAX_IDLE_CONNS: ${DB_MAX_IDLE_CONNS?set DB_MAX_IDLE_CONNS}
+      DB_CONN_MAX_LIFETIME: ${DB_CONN_MAX_LIFETIME?set DB_CONN_MAX_LIFETIME}
+      DB_CONN_MAX_IDLE_TIME: ${DB_CONN_MAX_IDLE_TIME?set DB_CONN_MAX_IDLE_TIME}
     ports:
-      - "8501:8501"
+      - "${CUSTOMER_BE_PORT?set CUSTOMER_BE_PORT}:8501"
     depends_on:
       store-backend:
         condition: service_healthy
@@ -39,8 +54,11 @@ services:
       context: ./store_website_fe
       dockerfile: Dockerfile
     container_name: store-frontend
+    environment:
+      PORT: ${STORE_FE_PORT?set STORE_FE_PORT}
+      REACT_APP_STORE_API_URL: ${REACT_APP_STORE_API_URL?set REACT_APP_STORE_API_URL}
     ports:
-      - "8504:8504"
+      - "${STORE_FE_PORT?set STORE_FE_PORT}:8504"
     depends_on:
       customer-backend:
         condition: service_healthy
@@ -56,8 +74,11 @@ services:
       context: ./customer_website_fe
       dockerfile: Dockerfile
     container_name: customer-frontend
+    environment:
+      PORT: ${CUSTOMER_FE_PORT?set CUSTOMER_FE_PORT}
+      REACT_APP_API_URL: ${REACT_APP_API_URL?set REACT_APP_API_URL}
     ports:
-      - "8503:8503"
+      - "${CUSTOMER_FE_PORT?set CUSTOMER_FE_PORT}:8503"
     depends_on:
       store-frontend:
         condition: service_healthy
@@ -73,8 +94,10 @@ services:
       context: ./qcommerce_website
       dockerfile: Dockerfile
     container_name: qcommerce-website
+    environment:
+      PORT: ${QCOMMERCE_PORT?set QCOMMERCE_PORT}
     ports:
-      - "8505:8505"
+      - "${QCOMMERCE_PORT?set QCOMMERCE_PORT}:8505"
     depends_on:
       customer-frontend:
         condition: service_healthy

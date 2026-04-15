@@ -11,6 +11,17 @@
 * [Required Repositories](#required-repositories)
 * [Installation](#installation)
 * [Running the Project](#running-the-project)
+* [Quick Access](#quick-access)
+
+---
+
+## Quick Access
+
+When the project is running, you can access the different interfaces via the main hub:
+
+- **Customer-Facing Site**: [http://localhost:8505/](http://localhost:8505/)
+- **Store-Facing Site (Merchant Portal)**: [http://localhost:8505/store](http://localhost:8505/store)
+- **Direct Login**: [http://localhost:8505/store/login](http://localhost:8505/store/login)
 
 ---
 

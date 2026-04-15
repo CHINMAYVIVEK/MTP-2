@@ -11,4 +11,5 @@ WORKDIR /app
 RUN apk add --no-cache curl && npm install -g serve
 COPY --from=builder /app/dist ./dist
 EXPOSE 8505
-CMD ["serve", "-s", "dist", "-l", "8505", "--cors"]
+ENV PORT=8505
+CMD ["sh", "-c", "serve -s dist -l ${PORT} --cors"]

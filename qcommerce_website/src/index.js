@@ -3,8 +3,12 @@ import { registerApplication, start } from 'single-spa';
 registerApplication({
   name: '@ecommerce/customer-app',
   app: () => System.import('@ecommerce/customer-app'),
-  activeWhen: ['/'],
-  });
+  activeWhen: (location) => {
+    const isStore = location.pathname.startsWith('/store');
+    const isAdmin = location.pathname.startsWith('/admin');
+    return !isStore && !isAdmin;
+  },
+});
 
 registerApplication(
   {

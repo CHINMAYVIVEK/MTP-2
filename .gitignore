@@ -28,3 +28,6 @@ Temporary Items
 .apdisk
 
 .env
+compose.runtime.env
+compose.override.env
+compose.dev.env

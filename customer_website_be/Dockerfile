@@ -11,4 +11,5 @@ RUN apk add --no-cache ca-certificates curl
 WORKDIR /app
 COPY --from=builder /workspace/customer-backend .
 EXPOSE 8501
+ENV SERVER_PORT=8501
 ENTRYPOINT ["./customer-backend"]

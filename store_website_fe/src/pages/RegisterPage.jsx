@@ -41,7 +41,7 @@ const RegisterPage = () => {
 
       localStorage.setItem('registeredEmail', formData.email);
       localStorage.setItem('registeredPassword', formData.password);
-      navigate('/store/login');
+      navigate('/login');
 
     } catch (err) {
       setError(err.message || 'An unknown error occurred.');
@@ -52,7 +52,7 @@ const RegisterPage = () => {
   };
 
   const handleLoginClick = () => {
-    navigate('/store/login');
+    navigate('/login');
   };
 
   return (

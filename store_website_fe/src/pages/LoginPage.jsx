@@ -14,7 +14,7 @@ const LoginPage = () => {
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('storeUser');
     if (isAuthenticated) {
-      navigate('/store/home');
+      navigate('/home');
       return; 
     }
     const registeredEmail = localStorage.getItem('registeredEmail');
@@ -48,7 +48,7 @@ const LoginPage = () => {
       localStorage.setItem('storeUser', JSON.stringify(user));
       localStorage.setItem('storeUserEmail', user.email);
       
-      navigate('/store/home');
+      navigate('/home');
 
     } catch (err) {
       setError(err.message);
@@ -59,7 +59,7 @@ const LoginPage = () => {
   };
 
   const handleRegisterClick = () => {
-    navigate('/store/register');
+    navigate('/register');
   };
 
   return (

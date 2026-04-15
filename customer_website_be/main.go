@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"os"
 	"qcommerce_backend/config"
 	"qcommerce_backend/server"
 	"time"
@@ -11,9 +12,12 @@ import (
 )
 
 func main() {
-	// Load .env file from root directory
-	if err := godotenv.Load(); err != nil {
-		log.Printf("Warning: error loading .env file: %v", err)
+	// Optional local development convenience:
+	// In Docker/CI we expect env vars to be injected, so missing .env should be silent.
+	if _, err := os.Stat(".env"); err == nil {
+		if err := godotenv.Load(); err != nil {
+			log.Printf("Warning: error loading .env file: %v", err)
+		}
 	}
 
 	// Create context with cancellation

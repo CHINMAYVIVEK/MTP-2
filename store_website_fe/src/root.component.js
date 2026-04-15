@@ -5,19 +5,21 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
+import NotFoundPage from './pages/NotFoundPage';
 import './styles.css';
 
 const RootComponent = () => {
   return (
-    <Router>
+    <Router basename="/store">
       <div className="store-app">
         <Header />
         <Routes>
-          <Route path="/store" element={<Navigate to="/store/login" replace />} />
-          <Route path="/store/login" element={<LoginPage />} />
-          <Route path="/store/register" element={<RegisterPage />} />
-          <Route path="/store/home" element={<HomePage />} />
-          <Route path="/store/profile" element={<ProfilePage />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </Router>

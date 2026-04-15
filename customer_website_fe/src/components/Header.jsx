@@ -1,26 +1,29 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
     <header className="header">
       <div className="header-container">
         <div className="logo">
-          <h1>🛍️ ShopHub</h1>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <h1>🛍️ ShopHub</h1>
+          </Link>
         </div>
         <nav className="nav">
-          <a href="/" className="nav-link active">Home</a>
-          <a href="/products" className="nav-link">Products</a>
-          <a href="/cart" className="nav-link">Cart</a>
-          <a href="/orders" className="nav-link">Orders</a>
-          <a href="/profile" className="nav-link">Profile</a>
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/products" className="nav-link">Products</Link>
+          <Link to="/cart" className="nav-link">Cart</Link>
+          <Link to="/orders" className="nav-link" >Orders</Link>
+          <Link to="/profile" className="nav-link">Profile</Link>
         </nav>
         <div className="header-actions">
           <button className="icon-btn">🔔</button>
-          <button className="icon-btn cart-btn">
+          <Link to="/cart" className="icon-btn cart-btn" style={{ textDecoration: 'none' }}>
             🛒
             <span className="badge">3</span>
-          </button>
-          <button className="login-btn">Login</button>
+          </Link>
+          <Link to="/store/login" className="login-btn" style={{ textDecoration: 'none' }}>Login</Link>
         </div>
       </div>
     </header>

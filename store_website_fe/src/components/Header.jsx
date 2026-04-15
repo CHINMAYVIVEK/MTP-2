@@ -9,7 +9,7 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('storeUser');
     localStorage.removeItem('storeUserEmail');
-    navigate('/store/login');
+    navigate('/login');
   };
 
   if (!isAuthenticated) {
@@ -24,14 +24,14 @@ const Header = () => {
         </div>
         <nav className="nav">
           <Link 
-            to="/store/home" 
-            className={`nav-link ${location.pathname === '/store/home' ? 'active' : ''}`}
+            to="/home" 
+            className={`nav-link ${location.pathname === '/home' ? 'active' : ''}`}
           >
             Home
           </Link>
           <Link 
-            to="/store/profile" 
-            className={`nav-link ${location.pathname === '/store/profile' ? 'active' : ''}`}
+            to="/profile" 
+            className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`}
           >
             Profile
           </Link>

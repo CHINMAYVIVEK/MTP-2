@@ -20,7 +20,7 @@ const HomePage = () => {
       })
       .catch(err => {
         if (err.message === 'User not found. Please log in.') {
-          navigate('/store/login');
+          navigate('/login');
         } else {
           setError(err.message);
         }
